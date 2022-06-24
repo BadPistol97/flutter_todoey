@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:river/screens/tasks_screen.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:river/components/drawer.dart';
+import 'package:river/screens/task_detail.dart';
 
 void main() => runApp(
    const ProviderScope(
@@ -30,6 +31,31 @@ class MyApp extends ConsumerWidget {
         // is not restarted.
         primarySwatch: Colors.deepOrange,
       ),
+      builder:(context,child){
+        return Overlay(
+          initialEntries: [
+            OverlayEntry(builder: (context){
+              return Scaffold(
+                appBar: AppBar(
+                  title: const Text(
+                    'Home',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  backgroundColor:Colors.deepOrange,
+                ),
+                drawer: const SideBar(),
+                body:child,
+              );
+            })
+          ],
+        );
+      },
+      initialRoute: 'home',
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        'home': (context) => TasksScreen(),
+        'detail':(context) => const TaskDetailScreen()
+      },
       home: TasksScreen(),
     );
   }

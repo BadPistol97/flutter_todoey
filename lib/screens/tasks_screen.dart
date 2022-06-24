@@ -13,6 +13,8 @@ class TasksScreen extends ConsumerWidget{
 
     List<TaskModel> tasks = ref.watch(tasksStateProvider);
 
+    int doneTasks = ref.read(tasksStateProvider.notifier).getDoneTaskCount();
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       backgroundColor: Colors.deepOrange,
@@ -36,7 +38,7 @@ class TasksScreen extends ConsumerWidget{
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.only(top:60.0,left:30.0,right:30.0,bottom:30.0),
+            padding: const EdgeInsets.only(top:30.0,left:30.0,right:30.0,bottom:30.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -54,7 +56,7 @@ class TasksScreen extends ConsumerWidget{
 
                     )
                 ),
-                Text('${tasks.length} tasks',
+                Text('${tasks.length} ${tasks.length > 1 ? 'tasks' : 'task'} ($doneTasks done)',
                     style:const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,

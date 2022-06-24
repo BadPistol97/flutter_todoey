@@ -29,4 +29,26 @@ class TasksStateNotifier extends StateNotifier<List<TaskModel>>{
      state = newState.toList();
   }
 
+  int getUndoneTaskCount(){
+
+    int count = 0;
+
+    for(TaskModel task in state){
+      if(!task.isChecked) count += 1;
+    }
+
+    return count;
+  }
+
+  int getDoneTaskCount(){
+
+    int count = 0;
+
+    for(TaskModel task in state){
+      if(task.isChecked) count += 1;
+    }
+
+    return count;
+  }
+
 }

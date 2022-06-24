@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:river/components/task.dart';
-import 'package:river/states/data.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:river/state_providers/providers.dart';
 import 'package:river/models/task_model.dart';
@@ -35,19 +34,21 @@ class TaskListState extends ConsumerState<TaskList> {
             itemBuilder: (context,index) {
               return Dismissible(
                 key: UniqueKey(),
-                direction: DismissDirection.endToStart,
+                direction: DismissDirection.horizontal,
                 onDismissed: (direction) {
-
-                    if(direction == DismissDirection.endToStart){
-                      ref.read(tasksStateProvider.notifier).removeTask(tasks[index].id);
-                      print(tasks.length);
-
-                    }
+                    if(direction == DismissDirection.endToStart) ref.read(tasksStateProvider.notifier).removeTask(tasks[index].id);
+                    if(direction == DismissDirection.startToEnd) Navigator.pushNamed(context,'detail');
                   },
                 background: Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.only(left: 20.0),
+                  color: Colors.orangeAccent,
+                  child: const Icon(Icons.edit, color: Colors.white),
+                ),
+                secondaryBackground: Container(
                   alignment: Alignment.centerRight,
                   padding: const EdgeInsets.only(right: 20.0),
-                  color: Colors.orangeAccent,
+                  color: Colors.pink,
                   child: const Icon(Icons.delete, color: Colors.white),
                 ),
                 child: Task(index:index),

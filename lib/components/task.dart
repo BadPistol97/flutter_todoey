@@ -18,7 +18,13 @@ class Task extends ConsumerWidget {
     return Container(
       margin: const EdgeInsets.only(bottom:20.0),
       child: ListTile(
-        trailing: TickBox(index),
+        trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+          children: [
+            // IconButton(onPressed: ()=>Navigator.pushNamed(context,'detail'), icon: const Icon(Icons.edit)),
+            TickBox(index),
+          ],
+        ),
         leading: Text(task.name ?? '',
             style: TextStyle(
                 fontSize: 20.0,
