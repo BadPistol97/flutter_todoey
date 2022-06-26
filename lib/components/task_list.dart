@@ -37,7 +37,10 @@ class TaskListState extends ConsumerState<TaskList> {
                 direction: DismissDirection.horizontal,
                 onDismissed: (direction) {
                     if(direction == DismissDirection.endToStart) ref.read(tasksStateProvider.notifier).removeTask(tasks[index].id);
-                    if(direction == DismissDirection.startToEnd) Navigator.pushNamed(context,'detail');
+                    if(direction == DismissDirection.startToEnd) {
+                      ref.read(taskIndexProvider.state).state = index;
+                      Navigator.pushNamed(context,'detail');
+                    }
                   },
                 background: Container(
                   alignment: Alignment.centerLeft,

@@ -56,6 +56,10 @@ class SideBar extends ConsumerWidget {
             title: const Text('Home'),
             onTap:() => Navigator.pushNamed(context,'home')
           ),
+          ListTile(
+              title: const Text('detail'),
+              onTap:() => Navigator.pushNamed(context,'detail')
+          ),
         ],
       ),
     );

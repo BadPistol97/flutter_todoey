@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:river/screens/tasks_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:river/components/drawer.dart';
 import 'package:river/screens/task_detail.dart';
 
 void main() => runApp(
@@ -30,26 +29,8 @@ class MyApp extends ConsumerWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.deepOrange,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      builder:(context,child){
-        return Overlay(
-          initialEntries: [
-            OverlayEntry(builder: (context){
-              return Scaffold(
-                appBar: AppBar(
-                  title: const Text(
-                    'Home',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  backgroundColor:Colors.deepOrange,
-                ),
-                drawer: const SideBar(),
-                body:child,
-              );
-            })
-          ],
-        );
-      },
       initialRoute: 'home',
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.

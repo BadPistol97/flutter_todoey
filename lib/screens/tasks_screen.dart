@@ -4,7 +4,7 @@ import 'package:river/components/task_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:river/state_providers/providers.dart';
 import 'package:river/models/task_model.dart';
-
+import 'package:river/components/drawer.dart';
 
 class TasksScreen extends ConsumerWidget{
 
@@ -34,6 +34,14 @@ class TasksScreen extends ConsumerWidget{
         backgroundColor: Colors.deepOrange,
         child: const Icon(Icons.add)
       ),
+      appBar: AppBar(
+        title: const Text(
+          'Home',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor:Colors.deepOrange,
+      ),
+      drawer: const SideBar(),
       body:Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
