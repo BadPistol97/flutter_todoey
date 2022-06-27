@@ -25,10 +25,6 @@ class TaskListState extends ConsumerState<TaskList> {
       child: Container(
           decoration: const BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft:Radius.circular(20.0),
-                  topRight:Radius.circular(20.0)
-              )
           ),
           child: ListView.builder(
             itemBuilder: (context,index) {
@@ -37,11 +33,17 @@ class TaskListState extends ConsumerState<TaskList> {
                 direction: DismissDirection.horizontal,
                 onDismissed: (direction) {
                     if(direction == DismissDirection.endToStart) ref.read(tasksStateProvider.notifier).removeTask(tasks[index].id);
-                    if(direction == DismissDirection.startToEnd) {
-                      ref.read(taskIndexProvider.state).state = index;
-                      Navigator.pushNamed(context,'detail');
-                    }
+
                   },
+                confirmDismiss: (direction) async{
+                  if(direction == DismissDirection.startToEnd) {
+                    ref.read(taskIndexProvider.state).state = index;
+                    Navigator.pushNamed(context,'detail');
+                    return false;
+                  }
+
+                  return true;
+                },
                 background: Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(left: 20.0),

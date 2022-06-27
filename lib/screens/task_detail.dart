@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:river/components/drawer.dart';
+// import 'package:river/components/drawer.dart';
 import 'package:river/state_providers/providers.dart';
 import 'package:river/models/task_model.dart';
 import 'package:river/components/tickbox.dart';
@@ -16,38 +16,69 @@ class TaskDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
+
+  final FocusNode focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode.addListener((){
+      if(focusNode.hasFocus){
+        ref.read(isEditingStateProvider.state).state = true;
+      }
+      if(!focusNode.hasFocus){
+        ref.read(isEditingStateProvider.state).state = false;
+      }
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
     QuillController _controller = QuillController.basic();
 
-    final FocusNode _focusNode = FocusNode();
-
     int taskIndex = ref.watch(taskIndexProvider);
 
     TaskModel task = ref.watch(tasksStateProvider)[taskIndex];
 
+    List<IconButton> appBarButton(){
+      if(ref.watch(isEditingStateProvider)) {
+        return [IconButton(onPressed: () {focusNode.unfocus();},icon: const Icon(Icons.check))];
+      }
+
+      return [IconButton(onPressed: () {},icon: const Icon(Icons.bookmark_border_outlined))];
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Detail',
-          style: TextStyle(color: Colors.white),
+        appBar:AppBar(
+          flexibleSpace: Container(
+            color: Colors.deepOrange
+          ),
+          centerTitle: true,
+          title: Container(
+            // alignment: Alignment.center,
+            // height: 40,
+            // child: SizedBox(
+            //     child: Image.asset(
+            //       'assets/logo.png',
+            //     )),
+          ),
+          actions: appBarButton()
         ),
-        backgroundColor:Colors.deepOrange,
-      ),
-      drawer: const SideBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
+        body: Column(
           children: [
-            Container(
-              child: Text(task.name ?? '',
-                style: const TextStyle(
-                  fontWeight:  FontWeight.bold,
-                  fontSize: 30.0,
-                ),
-                textAlign: TextAlign.center,
-              )
+            Padding(
+              padding: const EdgeInsets.only(top:20.0),
+              child: Container(
+                child: Text(task.name ?? '',
+                  style: const TextStyle(
+                    fontWeight:  FontWeight.bold,
+                    fontSize: 30.0,
+                  ),
+                  textAlign: TextAlign.center,
+                )
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -65,24 +96,26 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
               showImageButton: false,
               showBackgroundColorButton: false,
               showQuote: false,
-              showUndo: false,
-              showRedo: false,
               showListCheck: false,
               multiRowsDisplay: false,
               showClearFormat: false,
               controller: _controller
             ),
             const SizedBox(height:10.0),
+            const Divider(
+              height: 1,
+              color: Colors.grey,
+            ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(vertical: 12.0,horizontal: 10.0),
                 child: QuillEditor(
                   controller: _controller,
                   readOnly: false,
-                  focusNode: _focusNode,
+                  focusNode: focusNode,
                   scrollable: true,
                   scrollController: ScrollController(),
-                  placeholder: 'Add content',
+                  placeholder: 'Describe your task',
                   expands: false,
                   padding: EdgeInsets.zero,
                   autoFocus: false,// true for view only mode
@@ -90,8 +123,8 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
               ),
             )
           ],
-        ),
-      )
-    );
+        )
+      );
+
   }
 }

@@ -10,3 +10,5 @@ final taskIndexProvider = StateProvider<int>((ref)=>0);
 final dataStateProvider = StateNotifierProvider<DataStateNotifier,List<String>>((ref) => DataStateNotifier());
 
 final tasksStateProvider = StateNotifierProvider<TasksStateNotifier,List<TaskModel>>((ref) => TasksStateNotifier());
+
+final isEditingStateProvider = StateProvider<bool>((ref)=>false);
